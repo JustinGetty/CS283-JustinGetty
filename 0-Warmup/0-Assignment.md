@@ -34,9 +34,9 @@ Please provide answers to these questions using markdown notation and place them
     - [ ] NO - Not Yet
 
 
-3. Please provide a link to the repository you are using for this class.
+3. Please provide a link to the repository you are using for this class.\
 https://github.com/JustinGetty/CS283-JustinGetty/tree/main
-4. Briefly describe what you want to get out of this class.
+4. Briefly describe what you want to get out of this class.\
 I've spent a lot of time coding in C and CPP in my free time, and I would love to go deeper into how the compiler works and how other languages can be compiled into it.
-5. Briefly describe any concerns you might be having with being successful in this class (if any).
+5. Briefly describe any concerns you might be having with being successful in this class (if any).\
 My only concern is it's very hard to see/hear in the back of our classroom (910). If you don't happen to get a seat up front you're screwed for the entire lecture. 
