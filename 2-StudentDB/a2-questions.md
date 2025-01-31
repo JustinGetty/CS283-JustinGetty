@@ -106,7 +106,7 @@ Please answer the following questions and submit in your repo for the second ass
 
     -   Why did the total storage used on the disk remain unchanged when we added the student with ID=1, ID=3, and ID=63, but increased from 4K to 8K when we added the student with ID=64? 
 
-        > **ANSWER:** Because the size of the file didnt get any larger as DU would report, instead there is now a fixed unused size of the file so the logical volume is now bigger. The actual file is the same size
+        > **ANSWER:** The total storage reported by du remains unchanged for small student IDs because the filesystem does not allocate storage for holes in the file. The data structure is sparse, meaning that only the actual written blocks take up space. However, once the file reaches the threshold of 4KB (one block), a second block is allocated, doubling the disk usage to 8KB
 
     - Now lets add one more student with a large student ID number  and see what happens:
 
@@ -119,4 +119,4 @@ Please answer the following questions and submit in your repo for the second ass
         ```
         We see from above adding a student with a very large student ID (ID=99999) increased the file size to 6400000 as shown by `ls` but the raw storage only increased to 12K as reported by `du`.  Can provide some insight into why this happened?
 
-        > **ANSWER:** because, again, we are only adding 12kb of actual storage. the rest is just padding between the last offset and the new one, so in other words you added 12kb of data and the rest is more void unused partitions
+        > **ANSWER:** When adding a student with ID=99999, the database likely uses lseek to jump to an offset corresponding to that ID before writing data. This results in a sparse file, where the logical file size (reported by ls) increases to 6.4MB, but the actual disk space used (reported by du) only increases by 12KB. 
