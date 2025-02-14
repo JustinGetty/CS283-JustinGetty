@@ -23,8 +23,7 @@
 
 - STDERR is often used for error messages, while STDOUT is for regular output. Why is it important to keep these separate in a shell?
 
-    > **Answer**:  _start here_
-
+    > **Answer**:  stdout is buffered for better performance, stderr is not so that it can be printed quickly
 - How should our custom shell handle errors from commands that fail? Consider cases where a command outputs both STDOUT and STDERR. Should we provide a way to merge them, and if so, how?
 
-    > **Answer**:  _start here_
+    > **Answer**: in my opinion stderr should be printed at error time and nothing else. the error should be displayed when and where it happens.
