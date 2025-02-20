@@ -53,6 +53,11 @@
  */
 int build_cmd_buff(char* cmd_line, cmd_buff_t* cmd_buff) {
     if (!cmd_buff) return -1;
+    
+    if (cmd_line == NULL) {
+        fprintf(stderr, "Error: cmd_line is NULL\n");
+        return ERR_MEMORY;
+    }
 
     cmd_buff->_cmd_buffer = cmd_line;
     cmd_buff->argc = 0;
@@ -119,7 +124,12 @@ int exec_cmd(cmd_buff_t *cmd)
 Built_In_Cmds match_command(const char *input); 
 Built_In_Cmds exec_built_in_cmd(cmd_buff_t *cmd)
 {
-    chdir(cmd->argv[1]);
+    if (cmd->argc < 2) {
+        return BI_EXECUTED;
+    }
+    if (chdir(cmd->argv[1]) != 0) {
+        perror("chdir");
+    }
     return 0;
 }
 
@@ -127,10 +137,13 @@ Built_In_Cmds exec_built_in_cmd(cmd_buff_t *cmd)
 int exec_local_cmd_loop()
 {
     char *cmd_buff = malloc(sizeof(char) * SH_CMD_MAX);
+    if (cmd_buff == NULL) {
+        fprintf(stderr, "Error: malloc failed\n");
+        exit(ERR_MEMORY);
+    }
     int rc = 0;
     cmd_buff_t cmd;
 
-    // clist to be replaced by cmd
     while (1) {
         printf("%s", SH_PROMPT);
 
@@ -153,7 +166,6 @@ int exec_local_cmd_loop()
 
         if (rc == OK) {
             
-            //printf(CMD_OK_HEADER, clist.num);
             cmd_buff_t* cmd_ptr = &cmd;
             if (strcmp(cmd.argv[0], "cd") == 0)
             {
@@ -169,13 +181,7 @@ int exec_local_cmd_loop()
     }
     }
 
-    // TODO IMPLEMENT parsing input to cmd_buff_t *cmd_buff
-
-    // TODO IMPLEMENT if built-in command, execute builtin logic for exit, cd (extra credit: dragon)
-    // the cd command should chdir to the provided directory; if no directory is provided, do nothing
-
-    // TODO IMPLEMENT if not built-in command, fork/exec as an external command
-    // for example, if the user input is "ls -l", you would fork/exec the command "ls" with the arg "-l"
+    free(cmd_buff);
 
     return OK;
 }
